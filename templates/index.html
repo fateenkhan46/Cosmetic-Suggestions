@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Cosmetic Suggestion </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1619451334792-150fd785ee74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.85);
+            min-height: 100vh;
+            padding-top: 50px;
+        }
+        .card-custom {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border: none;
+            overflow: hidden;
+        }
+        .card-header-custom {
+            background: linear-gradient(45deg, #FF9A8B, #FF6A88, #FF99AC);
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .btn-custom {
+            background: linear-gradient(45deg, #FF9A8B, #FF6A88, #FF99AC);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 106, 136, 0.4);
+        }
+        .category-badge {
+            background-color: #FFF0F5;
+            color: #FF69B4;
+            padding: 8px 15px;
+            border-radius: 50px;
+            margin: 5px;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .category-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(255, 105, 180, 0.2);
+        }
+        .prediction-result {
+            background: linear-gradient(45deg, #E6E6FA, #FFF0F5);
+            border-left: 5px solid #FF69B4;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        .product-link {
+            background-color: #FF69B4;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        .product-link:hover {
+            background-color: #FF1493;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            color: white;
+        }
+        .cosmetics-info {
+            background: linear-gradient(45deg, #FFF0F5, #E6E6FA);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .form-control, .form-select {
+            border-radius: 50px;
+            padding: 12px 20px;
+            border: 2px solid #FFB6C1;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #FF69B4;
+            box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
+        }
+        .icon-input {
+            position: relative;
+        }
+        .icon-input i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #FF69B4;
+        }
+        .icon-input .form-control,
+        .icon-input .form-select {
+            padding-left: 45px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay">
+        <div class="container py-5">
+            <!-- Cosmetics Information Section -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-10 cosmetics-info">
+                    <h2 class="text-center mb-3" style="color: #FF1493;">✨ Cosmetic Suggestion ✨</h2>
+                    <p class="text-center">
+                        Dive into the world of skincare with our AI-powered predictor. Uncover the secrets behind your favorite products and discover new holy grails tailored to your unique skin needs. Let's embark on a journey to radiant, glowing skin together!
+                    </p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card card-custom">
+                        <div class="card-header-custom">
+                            <i class="fas fa-magic me-2"></i> Skincare Predictor
+                        </div>
+                        <div class="card-body p-4">
+                            <form method="POST">
+                                <div class="mb-3 icon-input">
+                                    <i class="fas fa-user"></i>
+                                    <select class="form-select" id="skin_type" name="skin_type">
+                                        <option value="">Select Skin Type</option>
+                                        <option value="Oily">Oily</option>
+                                        <option value="Dry">Dry</option>
+                                        <option value="Combination">Combination</option>
+                                        <option value="Sensitive">Sensitive</option>
+                                        <option value="Normal">Normal</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3 icon-input">
+                                    <i class="fas fa-star"></i>
+                                    <select class="form-select" id="brand" name="brand">
+                                        <option value="">Select Brand</option>
+                                        <option value="YOUTH TO THE PEOPLE">YOUTH TO THE PEOPLE</option>
+                                        <option value="SEPHORA COLLECTION">SEPHORA COLLECTION</option>
+                                        <option value="PHILOSOPHY">PHILOSOPHY</option>
+                                        <option value="DRUNK ELEPHANT">DRUNK ELEPHANT</option>
+                                        <option value="TATCHA">TATCHA</option>
+                                        <option value="FRESH">FRESH</option>
+                                        <option value="CLINIQUE">CLINIQUE</option>
+                                        <option value="LANCOME">LANCOME</option>
+                                        <option value="OLEHENRIKSEN">OLEHENRIKSEN</option>
+                                        <option value="SHISEIDO">SHISEIDO</option>
+                                        <option value="KATE SOMERVILLE">KATE SOMERVILLE</option>
+                                        <option value="ORIGINS">ORIGINS</option>
+                                        <option value="KIEHL'S SINCE 1851">KIEHL'S SINCE 1851</option>
+                                        <option value="KORRES">KORRES</option>
+                                        <option value="INDIE LEE">INDIE LEE</option>
+                                        <option value="BELIF">BELIF</option>
+                                        <option value="LA MER">LA MER</option>
+                                        <option value="BAREMINERALS">BAREMINERALS</option>
+                                        <option value="FIRST AID BEAUTY">FIRST AID BEAUTY</option>
+                                        <option value="BOBBI BROWN">BOBBI BROWN</option>
+                                        <option value="TARTE">TARTE</option>
+                                        <option value="DR. JART+">DR. JART+</option>
+                                        <option value="BIOSSANCE">BIOSSANCE</option>
+                                        <option value="PETER THOMAS ROTH">PETER THOMAS ROTH</option>
+                                        <option value="JOSIE MARAN">JOSIE MARAN</option>
+                                        <option value="PERRICONE MD">PERRICONE MD</option>
+                                        <option value="GLAMGLOW"GLAMGLOW></option>
+                                        <option value="AMOREPACIFIC">AMOREPACIFIC</option>
+                                        <option value="LANEIGE">LANEIGE</option>
+                                        <option value="REN CLEAN SKINCARE">REN CLEAN SKINCARE</option>
+                                        <option value="MURAD">MURAD</option>
+                                        <option value="HERBIVORE">HERBIVORE</option>
+                                        <option value="CHARLOTTE TILBURY">CHARLOTTE TILBURY</option>
+                                        <option value="SMASHBOX">SMASHBOX</option>
+                                        <option value="ESTEE LAUDER">ESTEE LAUDER</option>
+                                        <option value="MILK MAKEUP">MILK MAKEUP</option>
+                                        <option value="DR. DENNIS GROSS SKINCARE">DR. DENNIS GROSS SKINCARE</option>
+                                        <option value="KOPARI">KOPARI</option>
+                                        <option value="SATURDAY SKIN">SATURDAY SKIN</option>
+                                        <option value="ALGENIST">ALGENIST</option>
+                                        <option value="BOSCIA">BOSCIA</option>
+                                        <option value="SK-II">SK-II</option>
+                                        <option value="GLOW RECIPE">GLOW RECIPE</option>
+                                        <option value="MAKE UP FOR EVER">MAKE UP FOR EVER</option>
+                                        <option value="EVE LOM">EVE LOM</option>
+                                        <option value="FARMACY">FARMACY</option>
+                                        <option value="JACK BLACK">JACK BLACK</option>
+                                        <option value="SUNDAY RILEY">SUNDAY RILEY</option>
+                                        <option value="KOH GEN DO">KOH GEN DO</option>
+                                        <option value="CLARINS">CLARINS</option>
+                                        <option value="LANCER">LANCER</option>
+                                        <option value="NUFACE">NUFACE</option>
+                                        <option value="VOLITION BEAUTY">VOLITION BEAUTY</option>
+                                        <option value="DIOR">DIOR</option>
+                                        <option value="PEACE OUT">PEACE OUT</option>
+                                        <option value="FARSALI">FARSALI</option>
+                                        <option value="BECCA">BECCA</option>
+                                        <option value="IT COSMETICS">IT COSMETICS</option>
+                                        <option value="GUERLAIN">GUERLAIN</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3 icon-input">
+                                    <i class="fas fa-pump-soap"></i>
+                                    <select class="form-select" id="product" name="product">
+                                        <option value="">Select Product</option>
+                                        <option value="Superfood Antioxidant Cleanser">Superfood Antioxidant Cleanser</option>
+                                        <option value="Cleansing & Exfoliating Wipes">Cleansing & Exfoliating Wipes</option>
+                                        <option value="Purity Made Simple Cleanser">Purity Made Simple Cleanser</option>
+                                        <option value="Beste™ No. 9 Jelly Cleanser">Beste™ No. 9 Jelly Cleanser</option>
+                                        <option value="The Rice Polish Foaming Enzyme Powder">The Rice Polish Foaming Enzyme Powder</option>
+                                        <option value="Rose Deep Hydration Facial Toner">Rose Deep Hydration Facial Toner</option>
+                                        <option value="Amazonian Clay BB Tinted Moisturizer Broad Spectrum SPF 20 Sunscreen">Amazonian Clay BB Tinted Moisturizer Broad Spectrum SPF 20 Sunscreen</option>
+                                        <option value="Ceramidin Cream">Ceramidin Cream</option>
+                                        <option value="Dramatically Different Moisturizing Lotion+">Dramatically Different Moisturizing Lotion+</option>
+                                        <option value="Squalane + Omega Repair Cream">Squalane + Omega Repair Cream</option>
+                                        <option value="Midnight Recovery Concentrate">Midnight Recovery Concentrate</option>
+                                        <option value="BB Tinted Treatment 12-Hour Primer Broad Spectrum SPF 30 Sunscreen">BB Tinted Treatment 12-Hour Primer Broad Spectrum SPF 30 Sunscreen</option>
+                                        <option value="Premium Beauty Balm SPF 45">Premium Beauty Balm SPF 45</option>
+                                        <option value="Water Drench Hyaluronic Cloud Cream">Water Drench Hyaluronic Cloud Cream</option>
+                                        <option value="The Essence Plumping Skin Softener">The Essence Plumping Skin Softener</option>
+                                        <option value="Dramatically Different Moisturizing Gel">Dramatically Different Moisturizing Gel</option>
+                                        <option value="Goodnight Glow Retin-ALT Sleeping Creme">Goodnight Glow Retin-ALT Sleeping Creme</option>
+                                        <option value="100 percent Pure Argan Oil">100 percent Pure Argan Oil</option>
+                                        <option value="Cold Plasma Sub-D Firming Neck Treatment">Cold Plasma Sub-D Firming Neck Treatment</option>
+                                        <option value="Luminous Dewy Skin Mist">Luminous Dewy Skin Mist</option>
+                                        <option value="Sheer Transformation Perfecting Moisturizer">Sheer Transformation Perfecting Moisturizer</option>
+                                        <option value="Squalane + Vitamin C Rose Oil">Squalane + Vitamin C Rose Oil</option>
+                                        <option value="GLOWSTARTER Mega Illuminating Moisturizer">GLOWSTARTER Mega Illuminating Moisturizer</option>
+                                        <option value="Color Control Cushion Compact Broad Spectrum SPF 50+">Color Control Cushion Compact Broad Spectrum SPF 50+</option>
+                                        <option value="Superberry Hydrate + Glow Oil">Superberry Hydrate + Glow Oil</option>
+                                        <option value="Water Bank Moisture Cream">Water Bank Moisture Cream</option>
+                                        <option value="Evercalm Overnight Recovery Balm">Evercalm Overnight Recovery Balm</option>
+                                        <option value="Black Tea Corset Cream Firming Moisturizer">Black Tea Corset Cream Firming Moisturizer</option>
+                                        <option value="Invigorating Night Transformation Gel">Invigorating Night Transformation Gel</option>
+                                        <option value="Hydro-Dynamic Ultimate Moisture">Hydro-Dynamic Ultimate Moisture</option>
+                                        <option value="Pink Cloud Rosewater Moisture Creme">Pink Cloud Rosewater Moisture Creme</option>
+                                        <option value="Charlotte's Magic Cream Mini">Charlotte's Magic Cream Mini</option>
+                                        <option value="The Moisturizing Cool Gel Cream">The Moisturizing Cool Gel Cream</option>
+                                        <option value="Ultimate Miracle Worker Multi-Rejuvenating Cream SPF 30">Ultimate Miracle Worker Multi-Rejuvenating Cream SPF 30</option>
+                                        <option value="Vitamin C Glow Moisturizer">Vitamin C Glow Moisturizer</option>
+                                        <option value="Photo Finish Primer Water">Photo Finish Primer Water</option>
+                                        <option value="Nutrient-Charged Water Gel">Nutrient-Charged Water Gel</option>
+                       
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3 icon-input">
+                                    <i class="fas fa-flask"></i>
+                                    <input type="text" class="form-control" id="ingredients" name="ingredients" 
+                                           placeholder="e.g., Hyaluronic Acid, Niacinamide" 
+                                           value="{{ ingredients or '' }}">
+                                </div>
+                                
+                                <div class="mb-3 icon-input">
+                                    <i class="fas fa-comment"></i>
+                                    <textarea class="form-control" id="review" name="review" rows="4" 
+                                              placeholder="Share your thoughts on the product...">{{ review or '' }}</textarea>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-custom btn-lg px-5 py-3">
+                                        <i class="fas fa-magic me-2"></i> Predict Category
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            {% if predicted_category %}
+                            <div class="prediction-result mt-4">
+                                <h4 class="text-center">🏷️ Predicted Category:</h4>
+                                <h3 class="text-center" style="color: #FF1493;">{{ predicted_category }}</h3>
+                                
+                                <div class="text-center mt-3">
+                                    {% if predicted_category == 'Cleanser' %}
+                                    <a href="https://sephora.com/cleanser-products" class="product-link" target="_blank">
+                                        <i class="fas fa-search me-2"></i> Explore Cleansers
+                                    </a>
+                                    <a href="https://www.sephora.com/product/kale-spinach-green-tea-age-prevention-cleanser-P411387" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Kale + Spinach + Green Tea Age Prevention Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/cleansing-exfoliating-wipes-P409800" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Cleansing & Exfoliating Wipes
+                                    </a>
+                                    <a href="https://www.sephora.com/product/purity-made-simple-P7109" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Purity Made Simple
+                                    </a>
+                                    <a href="https://www.sephora.com/product/beste-no-9-jelly-cleanser-P426836" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Beste No. 9 Jelly Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/polished-rice-enzyme-powder-P426340" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Polished Rice Enzyme Powder
+                                    </a>
+                                    <a href="https://www.sephora.com/product/exfolikate-cleanser-daily-foaming-wash-P404322" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> ExfoliKate Cleanser Daily Foaming Wash
+                                    </a>
+                                    <a href="https://www.sephora.com/product/checks-balances-frothy-face-wash-P297516" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Checks & Balances Frothy Face Wash
+                                    </a>
+                                    <a href="https://www.sephora.com/product/the-clean-truth-foaming-cleanser-P211343" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> The Clean Truth Foaming Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/transforming-walnut-scrub-P42318" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Transforming Walnut Scrub
+                                    </a>
+                                    <a href="https://www.sephora.com/product/greek-yoghurt-foaming-cream-cleanser-P392253" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Greek Yoghurt Foaming Cream Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/brightening-cleanser-P432271" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Brightening Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/squalane-antioxidant-cleansing-oil-P416560" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Squalane Antioxidant Cleansing Oil
+                                    </a>
+                                    <a href="https://www.sephora.com/product/argan-cleansing-oil-P283501" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Argan Cleansing Oil
+                                    </a>
+                                    <a href="https://www.sephora.com/product/take-the-day-off-cleansing-oil-P384821" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Take the Day Off Cleansing Oil
+                                    </a>
+                                    
+                                    <a href="https://www.sephora.com/product/make-up-removing-cleansing-oil-P401244" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Make-Up Removing Cleansing Oil
+                                    </a>
+                                    <a href="https://www.sephora.com/product/find-your-balance-oil-control-cleanser-P416815" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Find Your Balance Oil Control Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/liquid-facial-soap-P139000" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Liquid Facial Soap
+                                    </a>
+                                    <a href="https://www.sephora.com/product/makeup-breakup-cool-cleansing-oil-P254604" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Makeup Breakup Cool Cleansing Oil
+                                    </a>
+                                    <a href="https://www.sephora.com/product/calendula-deep-clean-foaming-face-wash-P422013" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Calendula Deep Clean Foaming Face Wash
+                                    </a>
+                                    <a href="https://www.sephora.com/product/pore-balance-tm-facial-sauna-scrub-P418872" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Pore Balance™ Facial Sauna Scrub
+                                    </a>
+                                    <a href="https://www.sephora.com/product/purifying-cleansing-gel-P61204" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Purifying Cleansing Gel
+                                    </a>
+                                    <a href="https://www.sephora.com/product/blueberry-bounce-gentle-cleanser-P436359" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Blueberry Bounce Gentle Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/the-cleansing-foam-P416344" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> The Cleansing Foam
+                                    </a>
+                                    <a href="https://www.sephora.com/product/aha-bha-exfoliating-cleanser-P4010" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> AHA/BHA Exfoliating Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/clarifying-cleanser-P4016" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Clarifying Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/cleanser-P381436" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/sugar-face-polish-P12295" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Sugar Face Polish
+                                    </a>
+                                    <a href="https://www.sephora.com/product/anti-aging-cleansing-gel-P39274" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Anti-Aging Cleansing Gel
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ultra-facial-cleanser-P422007" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ultra Facial Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/facial-treatment-cleanser-P375850" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Facial Treatment Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/rub-a-dub-refining-peel-gel-P423971" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Rub-A-Dub Refining Peel Gel
+                                    </a>
+                                    <a href="https://www.sephora.com/product/exfoliating-scrub-P122718" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Exfoliating Scrub
+                                    </a>
+                                    <a href="https://www.sephora.com/product/make-up-removing-cleansing-oil-P401244" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Make-Up Removing Cleansing Oil
+                                    </a>
+                                    <a href="https://www.sephora.com/product/find-your-balance-oil-control-cleanser-P416815" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Find Your Balance Oil Control Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/liquid-facial-soap-P139000" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Liquid Facial Soap
+                                    </a>
+                                    <a href="https://www.sephora.com/product/makeup-breakup-cool-cleansing-oil-P254604" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Makeup Breakup Cool Cleansing Oil
+                                    </a>
+                                    <a href="https://www.sephora.com/product/calendula-deep-clean-foaming-face-wash-P422013" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Calendula Deep Clean Foaming Face Wash
+                                    </a>
+                                    <a href="https://www.sephora.com/product/pore-balance-tm-facial-sauna-scrub-P418872" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Pore Balance™ Facial Sauna Scrub
+                                    </a>
+                                    <a href="https://www.sephora.com/product/purifying-cleansing-gel-P61204" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Purifying Cleansing Gel
+                                    </a>
+                                    <a href="https://www.sephora.com/product/blueberry-bounce-gentle-cleanser-P436359" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Blueberry Bounce Gentle Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/the-cleansing-foam-P416344" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> The Cleansing Foam
+                                    </a>
+                                    <a href="https://www.sephora.com/product/aha-bha-exfoliating-cleanser-P4010" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> AHA/BHA Exfoliating Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/clarifying-cleanser-P4016" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Clarifying Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/cleanser-P381436" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/sugar-face-polish-P12295" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Sugar Face Polish
+                                    </a>
+                                    <a href="https://www.sephora.com/product/anti-aging-cleansing-gel-P39274" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Anti-Aging Cleansing Gel
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ultra-facial-cleanser-P422007" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ultra Facial Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/facial-treatment-cleanser-P375850" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Facial Treatment Cleanser
+                                    </a>
+                                    <a href="https://www.sephora.com/product/rub-a-dub-refining-peel-gel-P423971" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Rub-A-Dub Refining Peel Gel
+                                    </a>
+                                    <a href="https://www.sephora.com/product/exfoliating-scrub-P122718" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Exfoliating Scrub
+                                    </a>
+                                    
+                                    {% elif predicted_category == 'Moisturizer' %}
+                                    <a href="https://sephora.com/moisturizer-products" class="product-link" target="_blank">
+                                        <i class="fas fa-search me-2"></i> Explore Moisturizers
+                                    </a>
+                                    <a href="https://www.sephora.com/product/the-true-cream-aqua-bomb-P394639" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> The True Cream Aqua Bomb
+                                    </a>
+                                    <a href="https://www.sephora.com/product/the-moisturizing-soft-cream-P416342" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> The Moisturizing Soft Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/the-true-cream-moisturizing-bomb-P394624" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> The True Cream Moisturizing Bomb
+                                    </a>
+                                    <a href="https://www.sephora.com/product/complexion-rescue-tinted-hydrating-gel-cream-P393356" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Complexion Rescue Tinted Hydrating Gel Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/fresh-lotus-youth-preserve-moisturizer-P454378" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Fresh Lotus Youth Preserve Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ultra-repair-cream-intense-hydration-P248407" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ultra Repair Cream Intense Hydration
+                                    </a>
+                                    <a href="https://www.sephora.com/product/moisture-surge-72-hour-auto-replenishing-hydrator-P425416" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Moisture Surge 72-Hour Auto-Replenishing Hydrator
+                                    </a>
+                                    <a href="https://www.sephora.com/product/vitamin-enriched-face-base-P270594" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Vitamin Enriched Face Base
+                                    </a>
+                                    <a href="https://www.sephora.com/product/rose-deep-hydration-face-cream-P406686" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Rose Deep Hydration Face Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/amazonian-clay-bb-tinted-moisturizer-broad-spectrum-spf-20-sunscreen-P67617" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Amazonian Clay BB Tinted Moisturizer Broad Spectrum SPF 20 Sunscreen
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ceramidin-tm-cream-P434363" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ceramidin TM Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/dramatically-different-moisturizing-lotion-P381030" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Dramatically Different Moisturizing Lotion
+                                    </a>
+                                    <a href="https://www.sephora.com/product/squalane-omega-repair-cream-P433887" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Squalane Omega Repair Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/bb-tinted-treatment-12-hour-primer-broad-spectrum-spf-30-sunscreen-P377542" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> BB Tinted Treatment 12-Hour Primer Broad Spectrum SPF 30 Sunscreen
+                                    </a>
+                                    <a href="https://www.sephora.com/product/premium-beauty-balm-spf-45-P285403" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Premium Beauty Balm SPF 45
+                                    </a>
+                                    <a href="https://www.sephora.com/product/water-drench-hyaluronic-cloud-cream-P415701" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Water Drench Hyaluronic Cloud Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/the-essence-plumping-skin-softener-P415771" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> The Essence Plumping Skin Softener
+                                    </a>
+                                    <a href="https://www.sephora.com/product/dramatically-different-moisturizing-gel-P122900" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Dramatically Different Moisturizing Gel
+                                    </a>
+                                    <a href="https://www.sephora.com/product/sheer-transformation-perfecting-moisturizer-P42342" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Sheer Transformation Perfecting Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/squalane-vitamin-c-rose-oil-P416563" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Squalane + Vitamin C Rose Oil
+                                    </a>
+                                    <a href="https://www.sephora.com/product/glowstarter-mega-illuminating-moisturizer-P408739" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> GlowStarter Mega Illuminating Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/color-control-cushion-compact-broad-spectrum-spf-50-P378121" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Color Control Cushion Compact Broad Spectrum SPF 50
+                                    </a>
+                                    <a href="https://www.sephora.com/product/superberry-hydrate-glow-oil-P430146" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Superberry Hydrate + Glow Oil
+                                    </a>
+                                    <a href="https://www.sephora.com/product/water-bank-moisture-cream-P448186" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Water Bank Moisture Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/pink-cloud-rosewater-moisture-creme-P427626" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Pink Cloud Rosewater Moisture Creme
+                                    </a>
+                                    <a href="https://www.sephora.com/product/charlotte-s-magic-cream-mini-P435975" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Charlotte's Magic Cream Mini
+                                    </a>
+                                    <a href="https://www.sephora.com/product/the-moisturizing-cool-gel-cream-P429637" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> The Moisturizing Cool Gel Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/vitamin-nectar-moisture-glow-face-cream-P420158" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Vitamin Nectar Moisture Glow Face Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/skin-perfecting-lotion-blemish-prone-oily-skin-P4050" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Skin Perfecting Lotion Blemish Prone Oily Skin
+                                    </a>
+                                    <a href="https://www.sephora.com/product/wrinkle-warrior-2-in-1-plumping-moisturizer-serum-P415202" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Wrinkle Warrior 2-in-1 Plumping Moisturizer Serum
+                                    </a>
+                                    <a href="https://www.sephora.com/product/dr-andrew-weil-for-origins-mega-bright-spf-30-skin-tone-correcting-oil-free-moisturizer-P385253" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Dr. Andrew Weil Mega-Bright SPF 30 Skin Tone Correcting Oil-Free Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/resveratrol-lift-night-infusion-cream-P400609" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Resveratrol Lift Night Infusion Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ultra-facial-oil-free-gel-cream-P422006" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ultra Facial Oil-Free Gel Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/hyaluronic-marine-oil-free-moisture-cushion-P416755" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Hyaluronic Marine Oil-Free Moisture Cushion
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ferulic-retinol-anti-aging-moisturizer-P384536" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ferulic + Retinol Anti-Aging Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/coconut-melt-P413350" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Coconut Melt
+                                    </a>
+                                    <a href="https://www.sephora.com/product/photo-finish-primerizer-P421232" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Photo Finish Primerizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ultra-facial-cream-spf-30-P422012" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ultra Facial Cream SPF 30
+                                    </a>
+                                    <a href="https://www.sephora.com/product/aqua-bomb-sleeping-mask-P433443" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Aqua Bomb Sleeping Mask
+                                    </a>
+                                    <a href="https://www.sephora.com/product/black-tea-age-delay-cream-P217512" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Black Tea Age Delay Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/oil-free-moisturizer-P232906" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Oil-Free Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/photo-plasma-moisturizer-broad-spectrum-spf-30-P379495" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Photo Plasma Moisturizer Broad Spectrum SPF 30
+                                    </a>
+                                    <a href="https://www.sephora.com/product/skin-perfecting-lotion-blemish-prone-oily-skin-P4050" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Skin Perfecting Lotion Blemish Prone Oily Skin
+                                    </a>
+                                    <a href="https://www.sephora.com/product/wrinkle-warrior-2-in-1-plumping-moisturizer-serum-P415202" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Wrinkle Warrior 2-in-1 Plumping Moisturizer Serum
+                                    </a>
+                                    <a href="https://www.sephora.com/product/dr-andrew-weil-for-origins-mega-bright-spf-30-skin-tone-correcting-oil-free-moisturizer-P385253" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Dr. Andrew Weil Mega-Bright SPF 30 Skin Tone Correcting Oil-Free Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/resveratrol-lift-night-infusion-cream-P400609" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Resveratrol Lift Night Infusion Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ultra-facial-oil-free-gel-cream-P422006" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ultra Facial Oil-Free Gel Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/hyaluronic-marine-oil-free-moisture-cushion-P416755" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Hyaluronic Marine Oil-Free Moisture Cushion
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ferulic-retinol-anti-aging-moisturizer-P384536" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ferulic + Retinol Anti-Aging Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/coconut-melt-P413350" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Coconut Melt
+                                    </a>
+                                    <a href="https://www.sephora.com/product/photo-finish-primerizer-P421232" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Photo Finish Primerizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ultra-facial-cream-spf-30-P422012" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ultra Facial Cream SPF 30
+                                    </a>
+                                    <a href="https://www.sephora.com/product/aqua-bomb-sleeping-mask-P433443" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Aqua Bomb Sleeping Mask
+                                    </a>
+                                    <a href="https://www.sephora.com/product/black-tea-age-delay-cream-P217512" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Black Tea Age Delay Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/oil-free-moisturizer-P232906" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Oil-Free Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/photo-plasma-moisturizer-broad-spectrum-spf-30-P379495" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Photo Plasma Moisturizer Broad Spectrum SPF 30
+                                    </a>
+                                    <a href="https://www.sephora.com/product/5-in-1-face-cream-spf-30-P263006" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> 5-in-1 Face Cream SPF 30
+                                    </a>
+                                    <a href="https://www.sephora.com/product/goat-milk-moisturizing-cream-P232910" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Goat Milk Moisturizing Cream
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ultra-facial-moisturizer-P422005" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ultra Facial Moisturizer
+                                    </a>
+                                    <a href="https://www.sephora.com/product/plantscription-spf-25-power-anti-aging-cream-P409834" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Plantscription SPF 25 Power Anti-Aging Cream
+                                    </a>
+                                    
+                                    
+                                    
+                                    {% elif predicted_category == 'Serum' %}
+                                    <a href="https://sephora.com/serum-products" class="product-link" target="_blank">
+                                        <i class="fas fa-search me-2"></i> Explore Serums
+                                    </a>
+                                    <a href="https://www.sephora.com/product/skin-perfecting-lotion-blemish-prone-oily-skin-P4050" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Skin Perfecting Lotion Blemish Prone Oily Skin
+                                    </a>
+                                    <a href="https://www.sephora.com/product/wrinkle-warrior-2-in-1-plumping-moisturizer-serum-P415202" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Wrinkle Warrior 2-in-1 Plumping Moisturizer Serum
+                                    </a>
+                                    <a href="https://www.sephora.com/product/resveratrol-lift-night-infusion-cream-P400609" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Resveratrol Lift Night Infusion Cream
+                                    </a>
+                                    
+                                    {% elif predicted_category == 'Treatment' %}
+                                    <a href="https://sephora.com/Treatment-products" class="product-link" target="_blank">
+                                        <i class="fas fa-search me-2"></i> Explore Treatment
+                                    </a>
+                                    <a href="https://www.sephora.com/product/hungarian-water-essence-P394633" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Hungarian Water Essence
+                                    </a>
+                                    <a href="https://www.sephora.com/product/eradikate-daily-cleanser-acne-treatment-P415667" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Eradikate Daily Cleanser Acne Treatment
+                                    </a>
+                                    
+                                    <a href="https://www.sephora.com/product/take-the-day-off-cleansing-balm-P126301" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Take the Day Off Cleansing Balm
+                                    </a>
+                                    <a href="https://www.sephora.com/product/bi-facil-double-action-eye-makeup-remover-P54477" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Bi-Facil Double Action Eye Makeup Remover
+                                    </a>
+                                    <a href="https://www.sephora.com/product/waterproof-eye-makeup-remover-P276319" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Waterproof Eye Makeup Remover
+                                    </a>
+                                    <a href="https://www.sephora.com/product/take-the-day-off-makeup-remover-for-lids-lashes-lips-P122735" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Take the Day Off Makeup Remover for Lids, Lashes & Lips
+                                    </a>
+                                    <a href="https://www.sephora.com/product/midnight-recovery-concentrate-P421998" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Midnight Recovery Concentrate
+                                    </a>
+                                    <a href="https://www.sephora.com/product/goodnight-glow-retin-alt-sleeping-creme-P434546" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Goodnight Glow Retin-ALT Sleeping Creme
+                                    </a>
+                                    <a href="https://www.sephora.com/product/100-percent-pure-argan-oil-P218700" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> 100% Pure Argan Oil
+                                    </a>
+                                    <a href="https://www.sephora.com/product/cold-plasma-sub-d-anti-aging-neck-treatment-P270714" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Cold Plasma Sub-D Anti-Aging Neck Treatment
+                                    </a>
+                                    <a href="https://www.sephora.com/product/luminous-dewy-skin-mist-P399623" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Luminous Dewy Skin Mist
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ole-henriksen-invigorating-night-transformation-gel-P454397" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ole Henriksen Invigorating Night Transformation Gel
+                                    </a>
+                                    <a href="https://www.sephora.com/product/hydro-dynamic-ultimate-moisture-P268700" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Hydro-Dynamic Ultimate Moisture
+                                    </a>
+                                    <a href="https://www.sephora.com/product/ultimate-miracle-worker-multi-rejuvenating-cream-spf-30-P398831" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Ultimate Miracle Worker Multi-Rejuvenating Cream SPF 30
+                                    </a>
+                                    <a href="https://www.sephora.com/product/smashbox-photo-finish-primer-water-P392347" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Smashbox Photo Finish Primer Water
+                                    </a>
+                                    <a href="https://www.sephora.com/product/nutrient-charged-water-gel-P427638" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Nutrient-Charged Water Gel
+                                    </a>
+                                    <a href="https://www.sephora.com/product/micro-essence-skin-activating-treatment-lotion-P387619" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Micro Essence Skin Activating Treatment Lotion
+                                    </a>
+                                    <a href="https://www.sephora.com/product/daily-reviving-concentrate-P422003" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Daily Reviving Concentrate
+                                    </a>
+                                    <a href="https://www.sephora.com/product/vintage-single-extract-essence-P422238" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Vintage Single Extract Essence
+                                    </a>
+                                    <a href="https://www.sephora.com/product/peat-miracle-revital-cream-P412440" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Peat Miracle Revital Cream
+                                    </a>
+                                    
+                                     
+                                    {% elif predicted_category == 'Toner' %}
+                                    <a href="https://sephora.com/toner-products" class="product-link" target="_blank">
+                                        <i class="fas fa-search me-2"></i> Explore Toners
+                                    </a>
+                                    <a href="https://www.sephora.com/product/rose-deep-hydration-facial-toner-P417936" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Rose Deep Hydration Facial Toner
+                                    </a>
+                                    <a href="https://www.sephora.com/product/balancing-force-oil-control-toner-P416816" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Balancing Force Oil Control Toner
+                                    </a>
+                                    <a href="https://www.sephora.com/product/calendula-herbal-extract-alcohol-free-toner-P421997" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Calendula Herbal-Extract Alcohol-Free Toner
+                                    </a>
+                                    <a href="https://www.sephora.com/product/coq-10-toner-P432272" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> COQ-10 Toner
+                                    </a>
+                                    <a href="https://www.sephora.com/product/facial-treatment-clear-lotion-P375853" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Facial Treatment Clear Lotion
+                                    </a>
+                                    <a href="https://www.sephora.com/product/treatment-toner-P232934" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Treatment Toner
+                                    </a>
+                                    <a href="https://www.sephora.com/product/moisturizing-toner-P253623" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Moisturizing Toner
+                                    </a>
+                                    <a href="https://www.sephora.com/product/clarifying-lotion-2-P122882" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Clarifying Lotion 2
+                                    </a>
+                                    
+                                    {% elif predicted_category == 'Face Mask' %}
+                                    <a href="https://sephora.com/face-mask-products" class="product-link" target="_blank">
+                                        <i class="fas fa-search me-2"></i> Explore Face Masks
+                                    </a>
+                                    <a href="https://www.sephora.com/product/aqua-bomb-sleeping-mask-P433443" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Aqua Bomb Sleeping Mask
+                                    </a>
+                                    <a href="https://www.sephora.com/product/time-freeze-sleeping-mask-P420653" class="product-link" target="_blank"> 
+                                        <i class="fas fa-search me-2"></i> Time Freeze Sleeping Mask
+                                    </a>
+                                    
+                                    {% else %}
+                                    <a href="https://sephora.com/skincare" class="product-link" target="_blank">
+                                        <i class="fas fa-search me-2"></i> Explore Skincare
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if error %}
+                            <div class="alert alert-danger mt-4" role="alert">
+                                {{ error }}
+                            </div>
+                            {% endif %}
+                            
+                            <div class="mt-4 text-center">
+                                <h5>Available Categories:</h5>
+                                {% for category in categories %}
+                                    <span class="category-badge">{{ category }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
